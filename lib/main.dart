@@ -7,17 +7,18 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'E-Commerce Catalogue',
       debugShowCheckedModeBanner: false,
-      title: 'Mini E-Commerce',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: const Color(0xFF4B0082),
+        scaffoldBackgroundColor: const Color(0xFFF5F5FA),
       ),
-      home: const ProductListPage(), // product list part
+      home: const ProductListPage(),
     );
   }
 }
