@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final Product product;
 
   const ProductCard({
     Key? key,
     required this.product,
   }) : super(key: key);
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  bool isInCart = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +37,7 @@ class ProductCard extends StatelessWidget {
               child: Container(
                 color: Colors.white,
                 child: Image.asset(
-                  product.imageUrl,
+                  widget.product.imageUrl,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
@@ -57,7 +64,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    product.name,
+                    widget.product.name,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -68,7 +75,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '₱${product.price.toStringAsFixed(2)}',
+                    '₱${widget.product.price.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -76,6 +83,38 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+          // Add to Cart Button
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            child: SizedBox(
+              width: double.infinity,
+              height: 36,
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    isInCart = !isInCart;
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isInCart
+                      ? Colors.grey[300]
+                      : const Color(0xFFFFB400),
+                  foregroundColor: const Color(0xFF1E1E1E),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  isInCart ? 'In Cart' : 'Add to Cart',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),

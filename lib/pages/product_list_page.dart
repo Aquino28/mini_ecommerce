@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/mock_products.dart';
 import '../widgets/product_card.dart';
+import 'cart_page.dart';
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({Key? key}) : super(key: key);
@@ -23,7 +24,10 @@ class ProductListPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.shopping_cart, color: Colors.white),
             onPressed: () {
-              // Cart Navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartPage()),
+              );
             },
           ),
         ],
