@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/product.dart';
+import '../providers/cart_provider.dart';
 
-class ProductCard extends StatefulWidget {
+class ProductCard extends StatelessWidget {
   final Product product;
 
   const ProductCard({
-    Key? key,
+    super.key,
     required this.product,
-  }) : super(key: key);
-
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-  bool isInCart = false;
+  });
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final isInCart = cartProvider.isInCart(product.id);
+
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(
@@ -29,7 +27,6 @@ class _ProductCardState extends State<ProductCard> {
         children: [
           // Product Image
           Expanded(
-            flex: 3,
             child: ClipRRect(
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(8),
@@ -37,7 +34,7 @@ class _ProductCardState extends State<ProductCard> {
               child: Container(
                 color: Colors.white,
                 child: Image.asset(
-                  widget.product.imageUrl,
+                  product.imageUrl,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
@@ -55,48 +52,46 @@ class _ProductCardState extends State<ProductCard> {
             ),
           ),
           // Product Details
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.product.name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF1E1E1E),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product.name,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF1E1E1E),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '₱${widget.product.price.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF4B0082),
-                    ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '₱${product.price.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF4B0082),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           // Add to Cart Button
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             child: SizedBox(
               width: double.infinity,
-              height: 36,
+              height: 32,
               child: ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    isInCart = !isInCart;
-                  });
+                  if (isInCart) {
+                    cartProvider.removeFromCart(product.id);
+                  } else {
+                    cartProvider.addToCart(product);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: isInCart
@@ -111,7 +106,7 @@ class _ProductCardState extends State<ProductCard> {
                 child: Text(
                   isInCart ? 'In Cart' : 'Add to Cart',
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

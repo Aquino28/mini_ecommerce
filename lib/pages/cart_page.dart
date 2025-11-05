@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/product.dart';
-import '../data/mock_products.dart';
+import '../providers/cart_provider.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key? key}) : super(key: key);
+  const CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Mock cart items for UI demonstration
-    final List<Product> cartItems = [mockProducts[1]]; // Skort in cart
-    final double total = cartItems.fold(0, (sum, item) => sum + item.price);
-
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5FA),
       appBar: AppBar(
@@ -28,102 +25,132 @@ class CartPage extends StatelessWidget {
         backgroundColor: const Color(0xFF4B0082),
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: cartItems.isEmpty
-                ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 100,
-                    color: Colors.grey[400],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Your cart is empty',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+      body: Consumer<CartProvider>(
+        builder: (context, cart, child) {
+          return Column(
+            children: [
+              Expanded(
+                child: cart.cartItems.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.shopping_cart_outlined,
+                              size: 100,
+                              color: Colors.grey[400],
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Your cart is empty',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: cart.cartItems.length,
+                        itemBuilder: (context, index) {
+                          return CartItemCard(
+                            product: cart.cartItems[index],
+                            onRemove: () {
+                              cart.removeFromCart(cart.cartItems[index].id);
+                            },
+                          );
+                        },
+                      ),
               ),
-            )
-                : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: cartItems.length,
-              itemBuilder: (context, index) {
-                return CartItemCard(product: cartItems[index]);
-              },
-            ),
-          ),
-          // Total and Checkout Section
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, -5),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Total',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1E1E1E),
+              // Total and Checkout Section
+              if (cart.cartItems.isNotEmpty)
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, -5),
                       ),
-                    ),
-                    Text(
-                      '₱${total.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF4B0082),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Total',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E1E),
+                            ),
+                          ),
+                          Text(
+                            '₱${cart.totalAmount.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF4B0082),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFFB400),
-                      foregroundColor: const Color(0xFF1E1E1E),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Show mock checkout dialog
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Checkout'),
+                                content: const Text(
+                                    'This is a mock checkout. Order placed successfully!'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      cart.clearCart();
+                                      Navigator.pop(context); // Close dialog
+                                      Navigator.pop(context); // Go back to products
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFFFB400),
+                            foregroundColor: const Color(0xFF1E1E1E),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Checkout',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      'Checkout',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -131,11 +158,13 @@ class CartPage extends StatelessWidget {
 
 class CartItemCard extends StatelessWidget {
   final Product product;
+  final VoidCallback onRemove;
 
   const CartItemCard({
-    Key? key,
+    super.key,
     required this.product,
-  }) : super(key: key);
+    required this.onRemove,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +236,7 @@ class CartItemCard extends StatelessWidget {
           ),
           // Remove Button
           TextButton(
-            onPressed: () {},
+            onPressed: onRemove,
             style: TextButton.styleFrom(
               foregroundColor: Colors.red,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
