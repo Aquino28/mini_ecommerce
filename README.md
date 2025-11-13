@@ -81,6 +81,15 @@ flutter run -d chrome
 
 ## Note: Ensure Flutter SDK and environment variables are properly configured before running.
 
+---
+## APK Download
+1. You can install the app directly on your Android device using the compiled APK:
+2. Navigate to the apk/ folder in the repository.
+3. Locate the file named something like mini_ecommerce-release.apk.
+4. Enable installation from unknown sources on your Android device.
+5. Install the APK and open the app.
+---
+
 
 ## Project Structure
 ```bash
@@ -105,3 +114,4 @@ Creating the mini e-commerce website was both a familiar and challenging experie
 
 ---
 ### Reflection By Anne Beatriz Villanueva
+Working on the mini e-commerce app was an exciting learning experience for me because I had the opportunity to learn another programming language, Flutter. However, when it came to implementing Flutter in our e-commerce app, I encountered several challenges. I had to spend time understanding Flutter’s widgets, layouts, and state management to bring the app to life. Even though I was somewhat familiar with the concept of e-commerce systems, I still faced difficulties working with Flutter. However, this project taught me how to adapt to unfamiliar technologies, strengthened my problem-solving skills, and gave me the confidence to handle more advanced Flutter projects in the future.
