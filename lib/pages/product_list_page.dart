@@ -128,7 +128,7 @@ class _ProductListPageState extends State<ProductListPage> {
             : GridView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
+                  crossAxisCount: 3,
                   childAspectRatio: 0.5, 
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
