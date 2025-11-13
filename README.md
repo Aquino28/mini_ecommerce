@@ -14,9 +14,8 @@ This project demonstrates clean UI design, state management, and navigation for 
 *(You can add screenshots or a GIF demo here)*  
 Example:
 <p align="center">
-  <img src="assets/screenshots/home.png" alt="Home Screen" width="250"/>
-  <img src="assets/screenshots/product.png" alt="Product Screen" width="250"/>
-  <img src="assets/screenshots/cart.png" alt="Cart Screen" width="250"/>
+  <img src="assets/images/product.png" alt="Product Screen" width="250"/>
+  <img src="assets/images/cart.png" alt="Cart Screen" width="250"/>
 </p>
 
 ---
