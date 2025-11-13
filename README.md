@@ -11,12 +11,13 @@ This project demonstrates clean UI design, state management, and navigation for 
 ---
 
 ## Preview
-*(You can add screenshots or a GIF demo here)*  
 Example:
 <p align="center">
   <img src="assets/images/product.png" alt="Product Screen" width="250"/>
   <img src="assets/images/cart.png" alt="Cart Screen" width="250"/>
 </p>
+
+(Check out the "Screenshots" folder for more visuals showing the navigation flow and features of the app.)
 
 ---
 
@@ -87,15 +88,20 @@ mini_ecommerce/
 │
 ├── lib/
 │   ├── main.dart                # Entry point
-│   ├── screens/                 # UI pages (Home, Product, Cart, etc.)
+│   ├── pages/                   # UI pages (Product and Cart Page)
 │   ├── models/                  # Product model classes
 │   ├── widgets/                 # Custom reusable widgets
-│   └── utils/                   # Helper and data files
+│   └── data/                    # Mock products
+│   └── providers/               # Cart logic
 │
 ├── assets/
 │   ├── images/                  # Product and UI images
-│   └── fonts/                   # Custom fonts (if used)
 │
 ├── pubspec.yaml                 # Flutter dependencies
 └── README.md                    # Documentation
 ```
+### Reflection By Katrine Ingrid Aquino
+Creating the mini e-commerce website was both a familiar and challenging experience. It felt familiar because I’ve previously worked on projects with similar concepts, so I already understood the basic logic and flow of how an e-commerce system should work. However, the real challenge came when I had to integrate everything using Flutter. Since Flutter was still new to me, I had to take extra time to learn how its widgets, layouts, and UI components functioned. Despite the difficulties, I see it as a valuable learning experience, and I believe that with more practice and future projects, I’ll become more confident and skilled in using Flutter and developing more complex and modern applications with it.
+
+---
+### Reflection By Anne Beatriz Villanueva
