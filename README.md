@@ -57,28 +57,33 @@ This project uses various Flutter widgets for structure, interaction, and design
 ### 1️ Clone the Repository
 ```bash
 git clone https://github.com/Aquino28/mini_ecommerce.git
+```
 
 ### 2️ Navigate to the Project Folder
 ```bash
 cd mini_ecommerce
+```
 
 ### Install Dependencies
 ```bash
 flutter pub get
+```
 
 ### Run the Application
 ```bash
 flutter run
+```
 
 ### (Optional) Run on Web
 ```bash
 flutter run -d chrome
-
+```
 
 ## Note: Ensure Flutter SDK and environment variables are properly configured before running.
 
 
 ## Project Structure
+```bash
 mini_ecommerce/
 │
 ├── lib/
@@ -94,4 +99,4 @@ mini_ecommerce/
 │
 ├── pubspec.yaml                 # Flutter dependencies
 └── README.md                    # Documentation
-
+```
